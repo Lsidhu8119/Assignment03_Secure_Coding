@@ -5,7 +5,7 @@ const port = 3000;
 
 http.createServer((req, res) => {
   const url = req.url;
-  //No input validation on 'url'
+  //No input validation on the prpvided url
   fs.readFile("." + url, (err, data) => {
     if (err) {
       res.writeHead(404);
