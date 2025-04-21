@@ -1,34 +1,16 @@
-name: CodeQL Analysis
-
+name: "HCL AppScan CodeSweep"
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
-
+    types: [opened,synchronize]
 jobs:
-  analyze:
-    name: Analyze with CodeQL
+  scan:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [javascript]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          languages: ${{ matrix.language }}
-
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+          fetch-depth: 0
+      - name: Run AppScan CodeSweep
+        uses: HCL-TECH-SOFTWARE/appscan-codesweep-action@v2.1
+    env: 
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
